@@ -1,2 +1,1 @@
-# First
-Take it easy 
+print("hello world")
