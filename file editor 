@@ -80,4 +80,4 @@ edit_menu.add_command(label="Copy", command=lambda: root.focus_get().event_gener
 edit_menu.add_command(label="Paste", command=lambda: root.focus_get().event_generate("<<Paste>>"))
 
 # Run application
-root.mainloop()
+root.mainloop() 
