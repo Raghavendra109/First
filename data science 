@@ -1,0 +1,63 @@
+import pandas as pd
+import numpy as np
+
+# Lists to store data
+names = []
+marks = []
+
+# User input
+n = int(input("Enter number of students: "))
+
+for i in range(n):
+    name = input("Enter student name: ")
+    mark = int(input("Enter marks: "))
+    names.append(name)
+    marks.append(mark)
+
+# Create DataFrame
+df = pd.DataFrame({
+    "Name": names,
+    "Marks": marks
+})
+
+print("\nStudent Data:")
+print(df)
+
+# Data Science Analysis
+average = np.mean(df["Marks"])
+highest = np.max(df["Marks"])
+lowest = np.min(df["Marks"])
+
+print("\n📊 Analysis Results")
+print("Average Marks:", average)
+print("Highest Marks:", highest)
+print("Lowest Marks:", lowest)
+
+# Pass / Fail
+df["Result"] = np.where(df["Marks"] >= 50, "Pass", "Fail")
+
+# Grade Assignment
+def grade(m):
+    if m >= 90:
+        return "A"
+    elif m >= 75:
+        return "B"
+    elif m >= 50:
+        return "C"
+    else:
+        return "Fail"
+
+df["Grade"] = df["Marks"].apply(grade)
+
+print("\nFinal Report:")
+print(df)
+
+# Passed students
+passed = df[df["Result"] == "Pass"]
+print("\nPassed Students:")
+print(passed[["Name", "Marks"]])
+
+# Topper
+topper = df[df["Marks"] == highest]
+print("\n🏆 Topper:")
+print(topper[["Name", "Marks"]])
