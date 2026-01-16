@@ -23,7 +23,7 @@ document.getElementById("fileInput").addEventListener("change", function(){
 
 function saveFile() {
   const blob = new Blob([editor.value], { type: "text/plain" });
-  const link = document.createElement("a");
+  const link = document.createElement("a"); 
   link.href = URL.createObjectURL(blob);
   link.download = "file.txt";
   link.click();
