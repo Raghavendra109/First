@@ -1,34 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Online File Editor</title>
+    <meta charset="UTF-8">
+    <title>Simple Paint App</title>
+
+    <!-- LINK CSS FILE -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Online Text Editor</h2>
 
-  <textarea id="editor" rows="20" cols="80"></textarea><br><br>
+<h2>🎨 Simple Paint App</h2>
 
-  <input type="file" id="fileInput">
-  <button onclick="saveFile()">Save File</button>
+<div class="toolbar">
+    <input type="color" id="colorPicker">
+    <input type="range" id="brushSize" min="1" max="20" value="5">
+    <button id="clear">Clear</button>
+</div>
 
-<script>
-const editor = document.getElementById("editor");
+<canvas id="canvas"></canvas>
 
-document.getElementById("fileInput").addEventListener("change", function(){
-  const file = this.files[0];
-  const reader = new FileReader();
-  reader.onload = () => editor.value = reader.result;
-  reader.readAsText(file);
-});
-
-function saveFile() {
-  const blob = new Blob([editor.value], { type: "text/plain" });
-  const link = document.createElement("a"); 
-  link.href = URL.createObjectURL(blob);
-  link.download = "file.txt";
-  link.click();
-}
-</script>
+<!-- LINK JS FILE -->
+<script src="script.js"></script>
 
 </body>
 </html>
