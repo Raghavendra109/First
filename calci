@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Animated Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: rgba(255, 255, 255, 0.15);
+            --text: #ffffff;
+            --btn: rgba(255, 255, 255, 0.2);
+            --accent: #38bdf8;
+        }
+
+        body.light {
+            --bg: #e5e7eb;
+            --card: #ffffff;
+            --text: #000000;
+            --btn: #f3f4f6;
+            --accent: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text);
+            transition: 0.4s;
+        }
+
+        .calculator {
+            width: 360px;
+            padding: 20px;
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            animation: pop 0.8s ease;
+        }
+
+        @keyframes pop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .display {
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--btn);
+            border-radius: 12px;
+            font-size: 26px;
+            text-align: right;
+            min-height: 60px;
+            overflow-x: auto;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            padding: 18px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: var(--btn);
+            color: var(--text);
+            transition: 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: var(--accent);
+            color: #fff;
+        }
+
+        button.equal {
+            grid-column: span 2;
+            background: var(--accent);
+            color: #fff;
+        }
+
+        button.clear {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .history {
+            margin-top: 12px;
+            font-size: 13px;
+            opacity: 0.8;
+            max-height: 60px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="top">
+        <h3>Smart Calculator</h3>
+        <div class="toggle" onclick="toggleTheme()">🌙</div>
+    </div>
+
+    <div class="display" id="display">0</div>
+
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button onclick="append('%')">%</button>
+        <button onclick="append('/')">÷</button>
+        <button onclick="append('*')">×</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('-')">−</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('+')">+</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="calculate()" class="equal">=</button>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+    </div>
+
+    <div class="history" id="history"></div>
+</div>
+
+<script>
+    let display = document.getElementById("display");
+    let history = document.getElementById("history");
+
+    function append(value) {
+        if (display.innerText === "0") display.innerText = "";
+        display.innerText += value;
+    }
+
+    function clearDisplay() {
+        display.innerText = "0";
+    }
+
+    function calculate() {
+        try {
+            let expression = display.innerText;
+            let result = eval(expression.replace('×','*').replace('÷','/'));
+            history.innerHTML += `<div>${expression} = ${result}</div>`;
+            display.innerText = result;
+        } catch {
+            display.innerText = "Error";
+        }
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle("light");
+    }
+
+    // Keyboard support
+    document.addEventListener("keydown", e => {
+        if ("0123456789+-*/.".includes(e.key)) append(e.key);
+        if (e.key === "Enter") calculate();
+        if (e.key === "Backspace") display.innerText = display.innerText.slice(0, -1);
+    });
+</script>
+
+</body>
+</html>
