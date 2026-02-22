@@ -1,0 +1,56 @@
+import cv2
+
+# Load face detection model
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+)
+
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    faces = face_cascade.detectMultiScale(
+        gray,
+        scaleFactor=1.3,
+        minNeighbors=5
+    )
+
+    # Count faces
+    face_count = len(faces)
+
+    for (x, y, w, h) in faces:
+        # Draw rectangle
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+        # Add your name
+        """cv2.putText(
+            frame,
+            "Raghu",
+            (x, y-10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.9,
+            (0, 255, 0),
+            2
+        )"""
+
+    # Show face count on top left
+    cv2.putText(
+        frame,
+        f"Faces Detected: {face_count}",
+        (10, 30),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.8,
+        (0, 0, 255),
+        2
+    )
+
+    cv2.imshow("AI Face Detection", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
